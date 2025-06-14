@@ -1,19 +1,20 @@
 import express from "express";
 import dotenv from "dotenv";
-import { connect } from "mongoose";
 import { connectDB } from "./config/db.js";
+import productRoutes from "./routes/product.route.js";
+
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 8080;
 
-console.log(port);
+// Middlewares
+app.use(express.json());
 
-app.get("/products", (req, res) => {
-  res.send("Server is ready!");
-});
+// Routes
+app.use("/api/products", productRoutes);
 
 app.listen(port, () => {
   connectDB();
-  console.log("Server is running on http://localhost:5001");
+  console.log(`Server is running on http://localhost:${port}`);
 });
